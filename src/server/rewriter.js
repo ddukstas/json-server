@@ -24,14 +24,14 @@ module.exports = function (routes) {
         for (var param in req.params) {
           target = target.replace(':' + param, req.params[param])
         }
-        req.query = getQueryObj(routes[route]);
+        req.query = Object.assign(req.query, getQueryObj(routes[route]));
         req.url = target
         next()
       })
     } else {
       router.all(route + '*', function (req, res, next) {
         // Rewrite url by replacing prefix
-        req.query = getQueryObj(routes[route]);
+        req.query = Object.assign(req.query, getQueryObj(routes[route]));
         req.url = req.url.replace(route, routes[route])
         next()
       })
